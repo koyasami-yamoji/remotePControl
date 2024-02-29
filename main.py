@@ -31,12 +31,6 @@ async def main():
 	await dp.start_polling(bot)
 
 
-@router.message()
-async def echo(message: Message):
-	print(message.from_user.id)
-	await message.answer('123')
-
-
 if __name__ == "__main__":
 
 	logging.basicConfig(
