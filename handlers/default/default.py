@@ -29,7 +29,7 @@ start_dialog = Dialog(
 			Button(text=Const('🔊 Volume'),
 				   id='volume')
 		),
-		state=DialogStartMenuStates.start,
+		state=DialogStartMenuStates.menu,
 		markup_factory=ReplyKeyboardFactory(resize_keyboard=True,
 											input_field_placeholder=Const('Выберите действие'))
 	)
@@ -38,8 +38,7 @@ start_dialog = Dialog(
 
 @router.message(CommandStart())
 async def start(message: Message, dialog_manager: DialogManager):
-	print('qwe')
-	await dialog_manager.start(state=DialogStartMenuStates.start, mode=StartMode.RESET_STACK)
+	await dialog_manager.start(state=DialogStartMenuStates.menu, mode=StartMode.RESET_STACK)
 
 
 @router.message()
