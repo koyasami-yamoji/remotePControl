@@ -7,7 +7,7 @@ from states import states
 
 start_dialog = Dialog(
 	Window(
-		Const('Доброго времени бытия!'),
+		Const('Доброго времени бытия'),
 		Row(
 			Start(text=Const('🎵 Media'),
 				  id='media',
@@ -31,8 +31,8 @@ start_dialog = Dialog(
 				  state=states.DialogVolumeStates.volume_menu)
 		),
 		state=states.DialogStartMenuStates.menu,
-		markup_factory=ReplyKeyboardFactory(resize_keyboard=True,
-											input_field_placeholder=Const('Выберите действие'))
+		# markup_factory=ReplyKeyboardFactory(resize_keyboard=True,
+		# 									input_field_placeholder=Const('Выберите действие'))
 	),
 	launch_mode=LaunchMode.ROOT
 )

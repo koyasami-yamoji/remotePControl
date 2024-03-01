@@ -7,6 +7,8 @@ class DialogStartMenuStates(StatesGroup):
 
 class DialogMonitoringStates(StatesGroup):
 	monitoring_menu = State()
+	disc_load = State()
+	system_temp = State()
 
 
 class DialogMediaStates(StatesGroup):

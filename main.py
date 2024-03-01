@@ -3,8 +3,9 @@ import logging
 
 import betterlogging as bl
 from aiogram import Bot, Dispatcher, F, Router
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums.parse_mode import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.types import Message
 from aiogram_dialog import setup_dialogs
 
 from handlers import setup_start_routers
@@ -32,13 +33,12 @@ def setup_logging():
 async def main():
     setup_logging()
     config = load_config()
-    bot = Bot(token=config.tg.token)
+    default = DefaultBotProperties(parse_mode=ParseMode.HTML)
+    bot = Bot(token=config.tg.token, default=default)
     dp = Dispatcher(storage=MemoryStorage())
     dp.include_routers(setup_start_routers(), include_dialogs())
     setup_dialogs(dp)
     dp.update.outer_middleware(FilterUserMiddleware(config.tg.owner))
-    # dp.message.filter(F.from_user.id == 1835906223)
-    # dp.update.filter(MagicData(F.event_from_user.id == 1835906223))
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
