@@ -8,6 +8,7 @@ from dotenv import load_dotenv, find_dotenv
 class Tg:
 	token: str
 	owner: int
+	use_redis: bool
 
 
 @dataclass
@@ -21,8 +22,9 @@ def load_config():
 
 	load_dotenv()
 	config = Config(
-		tg=Tg(os.getenv('TOKEN'),
-			  int(os.getenv('OWNER')))
+		tg=Tg(token=os.getenv('TOKEN'),
+			  owner=int(os.getenv('OWNER')),
+			  use_redis=True if (os.getenv('USE_REDIS') == "TRUE") else False)
 	)
 
 	return config

@@ -1,3 +1,4 @@
+from aiogram_dialog import StartMode
 from aiogram_dialog.widgets.kbd import Start
 from aiogram_dialog.widgets.text import Const
 from states.states import DialogStartMenuStates

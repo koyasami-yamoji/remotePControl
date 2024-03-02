@@ -5,6 +5,7 @@ import betterlogging as bl
 from aiogram import Bot, Dispatcher, F, Router
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums.parse_mode import ParseMode
+from aiogram.fsm.storage.redis import RedisStorage, Redis, DefaultKeyBuilder
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram_dialog import setup_dialogs
 
@@ -35,7 +36,11 @@ async def main():
     config = load_config()
     default = DefaultBotProperties(parse_mode=ParseMode.HTML)
     bot = Bot(token=config.tg.token, default=default)
-    dp = Dispatcher(storage=MemoryStorage())
+    if config.tg.use_redis:
+        storage = RedisStorage(redis=Redis(host="127.0.0.1", port=6379), key_builder=DefaultKeyBuilder(with_destiny=True))
+    else:
+        storage = MemoryStorage()
+    dp = Dispatcher(storage=storage)
     dp.include_routers(setup_start_routers(), include_dialogs())
     setup_dialogs(dp)
     dp.update.outer_middleware(FilterUserMiddleware(config.tg.owner))

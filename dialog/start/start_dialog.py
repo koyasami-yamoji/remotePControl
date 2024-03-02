@@ -30,8 +30,6 @@ start_dialog = Dialog(
 				  state=states.DialogVolumeStates.volume_menu)
 		),
 		state=states.DialogStartMenuStates.menu,
-		# markup_factory=ReplyKeyboardFactory(resize_keyboard=True,
-		# 									input_field_placeholder=Const('Выберите действие'))
 	),
 	launch_mode=LaunchMode.ROOT
 )
