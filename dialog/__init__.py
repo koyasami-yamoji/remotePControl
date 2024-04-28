@@ -13,9 +13,15 @@ from middleware import KeyboardControllerMiddleware
 
 def include_dialogs():
 	router = Router()
+
 	keyboard_controller = KeyboardControllerMiddleware(Controller())
+
+	keyboard_control_dialog.message.middleware(keyboard_controller)
+	keyboard_control_dialog.callback_query.middleware(keyboard_controller)
+
 	media_dialog.message.middleware(keyboard_controller)
 	media_dialog.callback_query.middleware(keyboard_controller)
+
 	router.include_routers(start_dialog,
 						   file_manage_dialog,
 						   monitoring_dialog,
