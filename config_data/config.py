@@ -1,30 +1,33 @@
-import os
-from dataclasses import dataclass
+from  pydantic import BaseModel, SecretStr
+from pydantic_settings import BaseSettings as _BaseSettings
+from pydantic_settings import SettingsConfigDict
 
-from dotenv import load_dotenv, find_dotenv
+
+class BaseSettings(_BaseSettings):
+	model_config = SettingsConfigDict(extra='ignore', env_file='.env', env_file_encoding='utf-8')
 
 
-@dataclass
-class Tg:
-	token: str
+class Tg(BaseSettings, env_prefix="TG_"):
+	token: str = SecretStr
 	owner: int
-	use_redis: bool
+	use_redis: bool = True
 
 
-@dataclass
-class Config:
+class Api(BaseSettings, env_prefix="API_"):
+	currency: str = SecretStr
+	weather: str = SecretStr
+	crypto: str = SecretStr
+	latitude: float
+	longitude: float
+
+
+class AppConfig(BaseModel):
 	tg: Tg
+	api: Api
 
 
-def load_config():
-	if not find_dotenv():
-		exit('Переменные окружения не найдены')
-
-	load_dotenv()
-	config = Config(
-		tg=Tg(token=os.getenv('TOKEN'),
-			  owner=int(os.getenv('OWNER')),
-			  use_redis=True if (os.getenv('USE_REDIS') == "TRUE") else False)
+def load_config() -> AppConfig:
+	return AppConfig(
+		tg=Tg(),
+		api=Api()
 	)
-
-	return config
